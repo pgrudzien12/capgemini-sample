@@ -12,5 +12,7 @@ namespace CapgeminiSample.Infrastructure
         IQueryable<Customer> AsQueryable();
         void Add(Customer customer);
         Task<int> SaveChangesAsync();
+        Task<Customer> FindbyId(int id);
+        void Remove(Customer product);
     }
 }

@@ -27,6 +27,16 @@ namespace CapgeminiSample
             return dbContext.Customers.AsQueryable();
         }
 
+        public Task<Customer> FindbyId(int id)
+        {
+            return dbContext.Customers.FindAsync(id);
+        }
+
+        public void Remove(Customer customer)
+        {
+            dbContext.Remove(customer);
+        }
+
         public Task<int> SaveChangesAsync()
         {
             return dbContext.SaveChangesAsync();

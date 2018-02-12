@@ -39,5 +39,17 @@ namespace CapgeminiSample.Controllers
             await repository.SaveChangesAsync();
             return Created(customer);
         }
+
+        public async Task<IActionResult> Delete([FromODataUri] int id)
+        {
+            var customer = await repository.FindbyId(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+            repository.Remove(customer);
+            await repository.SaveChangesAsync();
+            return NoContent();
+        }
     }
 }
