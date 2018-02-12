@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CapgeminiSample
 {
@@ -15,9 +16,20 @@ namespace CapgeminiSample
         {
             this.dbContext = dbContext;
         }
+
+        public void Add(Customer customer)
+        {
+            dbContext.Customers.Add(customer);
+        }
+
         public IQueryable<Customer> AsQueryable()
         {
             return dbContext.Customers.AsQueryable();
+        }
+
+        public Task<int> SaveChangesAsync()
+        {
+            return dbContext.SaveChangesAsync();
         }
     }
 }

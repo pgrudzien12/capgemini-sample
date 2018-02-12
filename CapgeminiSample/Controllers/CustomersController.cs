@@ -27,5 +27,17 @@ namespace CapgeminiSample.Controllers
         {
             return Ok(repository.AsQueryable());
         }
+
+        public async Task<IActionResult> Post(Customer customer)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            repository.Add(customer);
+            await repository.SaveChangesAsync();
+            return Created(customer);
+        }
     }
 }
