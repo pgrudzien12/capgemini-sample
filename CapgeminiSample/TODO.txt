@@ -1,0 +1,6 @@
+﻿- test project??
+- dummy data
+- REST put, patch, update, delete
+- service
+- file logging
+- azure logging
