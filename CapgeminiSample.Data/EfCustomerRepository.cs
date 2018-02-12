@@ -1,5 +1,6 @@
 ﻿using CapgeminiSample.Infrastructure;
 using CapgeminiSample.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,11 @@ namespace CapgeminiSample
         public Task<int> SaveChangesAsync()
         {
             return dbContext.SaveChangesAsync();
+        }
+
+        public void Update(Customer customerUpdate)
+        {
+            dbContext.Entry(customerUpdate).State = EntityState.Modified;
         }
     }
 }

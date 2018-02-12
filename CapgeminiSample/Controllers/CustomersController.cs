@@ -41,6 +41,38 @@ namespace CapgeminiSample.Controllers
             return Created(customer);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Put([FromODataUri] int key, Customer customerUpdate)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (key != customerUpdate.Id)
+            {
+                return BadRequest();
+            }
+
+            repository.Update(customerUpdate);
+
+            try
+            {
+                await repository.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ue)
+            {
+                logger.LogError(ue, "Db update error");
+                return StatusCode(409);
+            }
+            catch (DbUpdateException ue)
+            {
+                logger.LogError(ue, "Db update error");
+            }
+
+            return Updated(customerUpdate);
+        }
+
         [HttpDelete]
         public async Task<IActionResult> Delete([FromODataUri] int key)
         {

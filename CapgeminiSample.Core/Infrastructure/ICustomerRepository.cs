@@ -14,5 +14,6 @@ namespace CapgeminiSample.Infrastructure
         Task<int> SaveChangesAsync();
         Task<Customer> FindbyId(int id);
         void Remove(Customer product);
+        void Update(Customer customerUpdate);
     }
 }
