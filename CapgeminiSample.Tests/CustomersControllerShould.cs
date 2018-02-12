@@ -1,6 +1,5 @@
 using CapgeminiSample.Controllers;
 using CapgeminiSample.Model;
-using CapgeminiSample.Tests.Mocks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using System;
