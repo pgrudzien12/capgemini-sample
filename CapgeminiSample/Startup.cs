@@ -50,9 +50,10 @@ namespace CapgeminiSample
             var builder = new ODataConventionModelBuilder(app.ApplicationServices);
             builder.EntitySet<Customer>(nameof(Customer));
             //Enabling OData routing.
-            app.UseMvc(routebuilder =>
+            app.UseMvc(routes =>
             {
-                routebuilder.MapODataServiceRoute("odata", "api", builder.GetEdmModel());
+                //routes.MapRoute("default", "api/{controller}/{action}/{id?}");
+                routes.MapODataServiceRoute("odata", "api", builder.GetEdmModel());
             });
         }
     }

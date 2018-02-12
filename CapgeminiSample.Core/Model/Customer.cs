@@ -15,7 +15,6 @@ namespace CapgeminiSample.Model
         [Required]
         public string Surname { get; set; }
         public string Phone { get; set; }
-        [Required]
         public string Address { get; set; }
     }
 }

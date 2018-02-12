@@ -28,7 +28,8 @@ namespace CapgeminiSample.Controllers
             return Ok(repository.AsQueryable());
         }
 
-        public async Task<IActionResult> Post(Customer customer)
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] Customer customer)
         {
             if (!ModelState.IsValid)
             {
@@ -40,9 +41,10 @@ namespace CapgeminiSample.Controllers
             return Created(customer);
         }
 
-        public async Task<IActionResult> Delete([FromODataUri] int id)
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromODataUri] int key)
         {
-            var customer = await repository.FindbyId(id);
+            var customer = await repository.FindbyId(key);
             if (customer == null)
             {
                 return NotFound();
