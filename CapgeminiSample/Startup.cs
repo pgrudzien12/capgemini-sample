@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CapgeminiSample.Infrastructure;
 using CapgeminiSample.Model;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
@@ -26,11 +27,12 @@ namespace CapgeminiSample
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {    
-            services.AddDbContext<CapgeminiDbContext>(options =>
-            {
-                options.UseInMemoryDatabase("InMemoryDb");
-            });
+        {
+            services.AddScoped<ICustomerRepository, EfCustomerRepository>()
+                .AddDbContext<CapgeminiDbContext>(options =>
+                {
+                    options.UseInMemoryDatabase("InMemoryDb");
+                });
             //Adding OData middleware.
             services.AddOData();
             services.AddMvc();

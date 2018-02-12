@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CapgeminiSample.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CapgeminiSample.Model
+namespace CapgeminiSample
 {
     public class CapgeminiDbContext : DbContext
     {
