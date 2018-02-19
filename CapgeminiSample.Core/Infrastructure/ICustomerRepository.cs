@@ -10,9 +10,9 @@ namespace CapgeminiSample.Infrastructure
     public interface ICustomerRepository
     {
         IQueryable<Customer> AsQueryable();
-        void Add(Customer customer);
+        int Create(Customer customer);
         Task<int> SaveChangesAsync();
-        Task<Customer> FindbyId(int id);
+        Task<Customer> FindById(int id);
         void Remove(Customer product);
         void Update(Customer customerUpdate);
     }

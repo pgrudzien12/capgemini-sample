@@ -18,9 +18,9 @@ namespace CapgeminiSample
             this.dbContext = dbContext;
         }
 
-        public void Add(Customer customer)
+        public int Create(Customer customer)
         {
-            dbContext.Customers.Add(customer);
+            return dbContext.Customers.Add(customer).Entity.Id;
         }
 
         public IQueryable<Customer> AsQueryable()
@@ -28,7 +28,7 @@ namespace CapgeminiSample
             return dbContext.Customers.AsQueryable();
         }
 
-        public Task<Customer> FindbyId(int id)
+        public Task<Customer> FindById(int id)
         {
             return dbContext.Customers.FindAsync(id);
         }

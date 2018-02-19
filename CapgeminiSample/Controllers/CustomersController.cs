@@ -35,9 +35,10 @@ namespace CapgeminiSample.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            repository.Add(customer);
+            
+            var customerId = repository.Create(customer);
             await repository.SaveChangesAsync();
+
             return Created(customer);
         }
 
@@ -76,7 +77,9 @@ namespace CapgeminiSample.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete([FromODataUri] int key)
         {
-            var customer = await repository.FindbyId(key);
+            if (key <= 0)
+                return BadRequest("Not a valid customer id");
+            var customer = await repository.FindById(key);
             if (customer == null)
             {
                 return NotFound();
