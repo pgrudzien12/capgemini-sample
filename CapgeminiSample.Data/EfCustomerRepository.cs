@@ -43,7 +43,7 @@ namespace CapgeminiSample
             return dbContext.SaveChangesAsync();
         }
 
-        public async void Update(Customer customerUpdate)
+        public void Update(Customer customerUpdate)
         {
             dbContext.Attach(customerUpdate);
             dbContext.Entry(customerUpdate).State = EntityState.Modified;
