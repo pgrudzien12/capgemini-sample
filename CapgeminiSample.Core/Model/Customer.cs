@@ -16,5 +16,12 @@ namespace CapgeminiSample.Model
         public string Surname { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
+        [ConcurrencyCheck]
+        public long Version { get; set; }
+
+        public Customer()
+        {
+            Version = DateTime.UtcNow.Ticks;
+        }
     }
 }

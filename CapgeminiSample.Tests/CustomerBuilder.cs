@@ -19,6 +19,10 @@ namespace CapgeminiSample.Tests
             Name = name;
             return this;
         }
+        public CustomerBuilder WithoutName()
+        {
+            return WithName(null);
+        }
 
         public CustomerBuilder WithSurname(string surname)
         {
@@ -26,13 +30,14 @@ namespace CapgeminiSample.Tests
             return this;
         }
 
-        public CustomerBuilder DefaultCustomer
+        public static CustomerBuilder DefaultCustomer
         {
             get
             {
                 return new CustomerBuilder();
             }
         }
+        
         public Customer Build()
         {
             return new Customer()
@@ -41,5 +46,6 @@ namespace CapgeminiSample.Tests
                 Surname = Surname,
             };
         }
+
     }
 }

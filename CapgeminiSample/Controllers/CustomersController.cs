@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using CapgeminiSample.Infrastructure;
 using CapgeminiSample.Model;
 using Microsoft.AspNet.OData;
+using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -35,15 +37,16 @@ namespace CapgeminiSample.Controllers
             {
                 return BadRequest(ModelState);
             }
-            
+
             var customerId = repository.Create(customer);
             await repository.SaveChangesAsync();
 
-            return Created(customer);
+            var result = await repository.FindById(customerId);
+            return Created(result);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromODataUri] int key, Customer customerUpdate)
+        public async Task<IActionResult> Put([FromODataUri] int key, [FromBody] Customer customerUpdate)
         {
             if (!ModelState.IsValid)
             {
@@ -54,7 +57,6 @@ namespace CapgeminiSample.Controllers
             {
                 return BadRequest();
             }
-
             repository.Update(customerUpdate);
 
             try
@@ -64,7 +66,7 @@ namespace CapgeminiSample.Controllers
             catch (DbUpdateConcurrencyException ue)
             {
                 logger.LogError(ue, "Db update error");
-                return StatusCode(409);
+                return StatusCode((int)HttpStatusCode.PreconditionFailed);
             }
             catch (DbUpdateException ue)
             {
