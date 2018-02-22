@@ -7,6 +7,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using CapgeminiSample.Infrastructure;
 using CapgeminiSample.Model;
+using CapgeminiSample.Services;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Mvc;
@@ -17,23 +18,19 @@ namespace CapgeminiSample.Controllers
 {
     public class CustomerController : ODataController
     {
-        private readonly ICustomerRepository repository;
-        private readonly IMapper mapper;
+        private CustomerService Service { get; }
         private readonly ILogger<CustomerController> logger;
 
-        public CustomerController(ICustomerRepository repository, IMapper mapper, ILogger<CustomerController> logger)
+        public CustomerController(CustomerService customerService, ILogger<CustomerController> logger)
         {
-            this.repository = repository;
-            this.mapper = mapper;
+            Service = customerService;
             this.logger = logger;
         }
 
         [EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
         public IQueryable<CustomerDTO> Get()
         {
-            
-            IQueryable<Customer> customers = repository.AsQueryable();
-            return customers.Select(c=>mapper.Map<CustomerDTO>(c));
+            return Service.Get();
         }
 
         [HttpPost]
@@ -44,11 +41,7 @@ namespace CapgeminiSample.Controllers
                 return BadRequest(ModelState);
             }
 
-            var customerId = repository.Create(mapper.Map<Customer>(customer));
-            await repository.SaveChangesAsync();
-
-            var result = await repository.FindById(customerId);
-            return Created(mapper.Map<CustomerDTO>(result));
+            return Created(await Service.SaveAndGet(customer));
         }
 
         [HttpPut]
@@ -64,11 +57,10 @@ namespace CapgeminiSample.Controllers
                 return BadRequest();
             }
 
-            await repository.Update(mapper.Map<Customer>(customerUpdate));
-
             try
             {
-                await repository.SaveChangesAsync();
+                var afterUpdate = await Service.Update(customerUpdate);
+                return Updated(afterUpdate);
             }
             catch (DbUpdateConcurrencyException ue)
             {
@@ -78,9 +70,8 @@ namespace CapgeminiSample.Controllers
             catch (DbUpdateException ue)
             {
                 logger.LogError(ue, "Db update error");
+                return StatusCode((int)HttpStatusCode.InternalServerError);
             }
-
-            return Updated(customerUpdate);
         }
 
         [HttpDelete]
@@ -88,13 +79,9 @@ namespace CapgeminiSample.Controllers
         {
             if (key <= 0)
                 return BadRequest("Not a valid customer id");
-            var customer = await repository.FindById(key);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-            repository.Remove(customer);
-            await repository.SaveChangesAsync();
+
+            await Service.Delete(key);
+            
             return NoContent();
         }
     }

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using CapgeminiSample.Exceptions;
 using CapgeminiSample.Infrastructure;
 using CapgeminiSample.Model;
+using CapgeminiSample.Services;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -36,13 +38,17 @@ namespace CapgeminiSample
             });
             services.AddSingleton(sp => config.CreateMapper());
             services.AddScoped<ICustomerRepository, EfCustomerRepository>()
+                .AddScoped<CustomerService>()
                 .AddDbContext<CapgeminiDbContext>(options =>
                 {
                     options.UseInMemoryDatabase("InMemoryDb");
                 });
             //Adding OData middleware.
             services.AddOData();
-            services.AddMvc();
+            services.AddMvc(setup =>
+            {
+                setup.Filters.Add<ApplicationLayerExceptionFilter>();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
