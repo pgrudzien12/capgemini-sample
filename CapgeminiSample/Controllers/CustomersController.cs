@@ -57,21 +57,8 @@ namespace CapgeminiSample.Controllers
                 return BadRequest();
             }
 
-            try
-            {
-                var afterUpdate = await Service.Update(customerUpdate);
-                return Updated(afterUpdate);
-            }
-            catch (DbUpdateConcurrencyException ue)
-            {
-                logger.LogError(ue, "Db update error");
-                return StatusCode((int)HttpStatusCode.PreconditionFailed);
-            }
-            catch (DbUpdateException ue)
-            {
-                logger.LogError(ue, "Db update error");
-                return StatusCode((int)HttpStatusCode.InternalServerError);
-            }
+            var afterUpdate = await Service.Update(customerUpdate);
+            return Updated(afterUpdate);
         }
 
         [HttpDelete]

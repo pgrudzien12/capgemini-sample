@@ -48,11 +48,12 @@ namespace CapgeminiSample
             services.AddMvc(setup =>
             {
                 setup.Filters.Add<ApplicationLayerExceptionFilter>();
+                setup.Filters.Add<DbLayerExceptionFilter>();
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
