@@ -28,7 +28,7 @@ namespace CapgeminiSample.Controllers
             this.logger = logger;
         }
 
-        [EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All]
+        [EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
         public IQueryable<CustomerDTO> Get()
         {
             
