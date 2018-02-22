@@ -38,9 +38,9 @@ namespace CapgeminiSample.Tests
             }
         }
         
-        public Customer Build()
+        public CustomerDTO Build()
         {
-            return new Customer()
+            return new CustomerDTO()
             {
                 Name = Name,
                 Surname = Surname,

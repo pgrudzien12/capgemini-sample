@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace CapgeminiSample.Tests
+namespace CapgeminiSample.Tests.GivenCustomersRepository
 {
     public class EfCustomersRepositoryShould
     {

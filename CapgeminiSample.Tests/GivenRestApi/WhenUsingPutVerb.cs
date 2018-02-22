@@ -12,7 +12,7 @@ namespace CapgeminiSample.Tests.CustomersController
 {
     public class WhenUsingPutVerb : GivenRestApi
     {
-        private Task<HttpResponseMessage> PutAsync(Customer customer)
+        private Task<HttpResponseMessage> PutAsync(CustomerDTO customer)
         {
             var content = ToHttpContent(customer);
             return _client.PutAsync($"/api/Customer({customer.Id})", content);
@@ -31,7 +31,7 @@ namespace CapgeminiSample.Tests.CustomersController
 
 
             // Assert
-            Customer responseCustomer = await Get(customer.Id);
+            CustomerDTO responseCustomer = await Get(customer.Id);
 
             Assert.NotNull(responseCustomer);
         }

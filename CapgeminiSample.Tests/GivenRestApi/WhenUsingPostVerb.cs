@@ -44,7 +44,7 @@ namespace CapgeminiSample.Tests.CustomersController
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
-        private Task<HttpResponseMessage> PostAsync(Customer customer)
+        private Task<HttpResponseMessage> PostAsync(CustomerDTO customer)
         {
             var content = ToHttpContent(customer);
             return _client.PostAsync("/api/Customer", content);
