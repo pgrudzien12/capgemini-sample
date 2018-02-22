@@ -5,11 +5,11 @@ VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CapgeminiSample", "CapgeminiSample\CapgeminiSample.csproj", "{EA4EA54F-68C7-4C94-90C2-71F82F79396C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapgeminiSample.Tests", "CapgeminiSample.Tests\CapgeminiSample.Tests.csproj", "{DC1A940C-3316-4C6E-A991-98F4521173C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CapgeminiSample.Tests", "CapgeminiSample.Tests\CapgeminiSample.Tests.csproj", "{DC1A940C-3316-4C6E-A991-98F4521173C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapgeminiSample.Core", "CapgeminiSample.Core\CapgeminiSample.Core.csproj", "{7030DAFA-32AC-4787-BAE5-D05B5CEDB035}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CapgeminiSample.Core", "CapgeminiSample.Core\CapgeminiSample.Core.csproj", "{7030DAFA-32AC-4787-BAE5-D05B5CEDB035}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapgeminiSample.Data", "CapgeminiSample.Data\CapgeminiSample.Data.csproj", "{548534B7-B85D-4467-AA6B-7CC438CCA82C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CapgeminiSample.Data", "CapgeminiSample.Data\CapgeminiSample.Data.csproj", "{548534B7-B85D-4467-AA6B-7CC438CCA82C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

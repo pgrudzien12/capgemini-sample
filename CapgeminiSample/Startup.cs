@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CapgeminiSample.Infrastructure;
 using CapgeminiSample.Model;
 using Microsoft.AspNet.OData.Builder;
@@ -28,6 +29,12 @@ namespace CapgeminiSample
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Customer, CustomerDTO>();
+                cfg.CreateMap<CustomerDTO, Customer>();
+            });
+            services.AddSingleton(sp => config.CreateMapper());
             services.AddScoped<ICustomerRepository, EfCustomerRepository>()
                 .AddDbContext<CapgeminiDbContext>(options =>
                 {
@@ -48,7 +55,7 @@ namespace CapgeminiSample
 
             //Adding Model class to OData
             var builder = new ODataConventionModelBuilder(app.ApplicationServices);
-            builder.EntitySet<Customer>(nameof(Customer));
+            builder.EntitySet<CustomerDTO>(nameof(Customer));
             //Enabling OData routing.
             app.UseMvc(routes =>
             {

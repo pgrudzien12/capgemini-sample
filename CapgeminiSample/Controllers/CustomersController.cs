@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using CapgeminiSample.Infrastructure;
 using CapgeminiSample.Model;
 using Microsoft.AspNet.OData;
@@ -16,37 +18,41 @@ namespace CapgeminiSample.Controllers
     public class CustomerController : ODataController
     {
         private readonly ICustomerRepository repository;
+        private readonly IMapper mapper;
         private readonly ILogger<CustomerController> logger;
 
-        public CustomerController(ICustomerRepository repository, ILogger<CustomerController> logger)
+        public CustomerController(ICustomerRepository repository, IMapper mapper, ILogger<CustomerController> logger)
         {
             this.repository = repository;
+            this.mapper = mapper;
             this.logger = logger;
         }
 
-        [EnableQuery]
-        public IActionResult Get()
+        [EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All]
+        public IQueryable<CustomerDTO> Get()
         {
-            return Ok(repository.AsQueryable());
+            
+            IQueryable<Customer> customers = repository.AsQueryable();
+            return customers.Select(c=>mapper.Map<CustomerDTO>(c));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Customer customer)
+        public async Task<IActionResult> Post([FromBody] CustomerDTO customer)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var customerId = repository.Create(customer);
+            var customerId = repository.Create(mapper.Map<Customer>(customer));
             await repository.SaveChangesAsync();
 
             var result = await repository.FindById(customerId);
-            return Created(result);
+            return Created(mapper.Map<CustomerDTO>(result));
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromODataUri] int key, [FromBody] Customer customerUpdate)
+        public async Task<IActionResult> Put([FromODataUri] int key, [FromBody] CustomerDTO customerUpdate)
         {
             if (!ModelState.IsValid)
             {
@@ -57,7 +63,8 @@ namespace CapgeminiSample.Controllers
             {
                 return BadRequest();
             }
-            repository.Update(customerUpdate);
+
+            await repository.Update(mapper.Map<Customer>(customerUpdate));
 
             try
             {

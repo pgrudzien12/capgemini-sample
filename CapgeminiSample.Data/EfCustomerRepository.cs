@@ -43,10 +43,10 @@ namespace CapgeminiSample
             return dbContext.SaveChangesAsync();
         }
 
-        public void Update(Customer customerUpdate)
+        public async Task Update(Customer customerUpdate)
         {
-            dbContext.Attach(customerUpdate);
-            dbContext.Entry(customerUpdate).State = EntityState.Modified;
+            var customer = await FindById(customerUpdate.Id);
+            dbContext.Entry(customer).CurrentValues.SetValues(customerUpdate);
         }
     }
 }
